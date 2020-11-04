@@ -1,23 +1,32 @@
-<div class="row">
-    <h2 class="dialog-title" mat-dialog-title> {{ params.title }} </h2>
-</div>
-
-<!-- username -->
-<mat-dialog-content class="dialog-content">
-    <mat-form-field>
-        <input matInput name="username" placeholder="Username" [formControl]="usernameFormControl" required>
-        <mat-error> Required Field! </mat-error>
-        <mat-hint> Please type your username! </mat-hint>
-    </mat-form-field>
-</mat-dialog-content>
-
-<mat-dialog-actions *ngIf="params?.dialogType === 0" [attr.align]="'end'">
-    <button mat-raised-button mat-dialog-close color="primary" 
-            (click)="onSave()" [disabled]="usernameFormControl.hasError('required')"> Chat </button>
-</mat-dialog-actions>
-
-<mat-dialog-actions *ngIf="params?.dialogType === 1" [attr.align]="'end'">
-    <button mat-button mat-dialog-close color="secondary"> Close </button>
-    <button mat-raised-button mat-dialog-close color="primary" (click)="onSave()"> Save </button>
-</mat-dialog-actions>
-
+<section>
+    <header>
+        <h2 class="dialog-title" mat-dialog-title> {{ params.title }} </h2>
+    </header>
+    
+    <!-- username -->
+    <mat-dialog-content class="dialog-content">
+        <mat-form-field>
+            <input name="username" placeholder="Username" matInput [formControl]="usernameFormControl" required>
+            <mat-error> Required Field! </mat-error>
+            <mat-hint> Please type your username! </mat-hint>
+        </mat-form-field>
+    </mat-dialog-content>
+    
+    <!-- login into chat -->
+    <mat-dialog-actions *ngIf="params?.dialogType === 0" [attr.align]="'end'">
+        <button mat-raised-button mat-dialog-close color="primary" 
+                (click)="onSave()" [disabled]="usernameFormControl.hasError('required')"> 
+                Chat 
+        </button>
+    </mat-dialog-actions>
+    
+    <!-- update user name -->
+    <mat-dialog-actions *ngIf="params?.dialogType === 1" [attr.align]="'end'">
+        <button mat-button mat-dialog-close color="secondary"> 
+            Close 
+        </button>
+        <button mat-raised-button mat-dialog-close color="primary" (click)="onSave();"> 
+            Save 
+        </button>
+    </mat-dialog-actions>
+</section>

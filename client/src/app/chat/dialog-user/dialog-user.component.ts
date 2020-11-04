@@ -40,7 +40,4 @@ export class DialogUserComponent implements OnInit {
       color: this.color
     });
   }
-
-
-
 }

@@ -3,9 +3,5 @@
 }
 
 .dialog-title {
-    float: left;
-}
-
-.dialog-content {
-    float: left;
+    text-align: center;
 }
