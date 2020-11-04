@@ -26,7 +26,7 @@ const MATERIAL_MODULES = [
 
 @NgModule({
   declarations: [],
-  imports: [ CommonModule, MATERIAL_MODULES],
+  imports: [CommonModule, MATERIAL_MODULES],
   exports: [MATERIAL_MODULES],
   providers: [MatDialog]
 })

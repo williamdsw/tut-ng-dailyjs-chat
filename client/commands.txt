@@ -1,2 +1,19 @@
+-- Creating
+
+ng new typescript-chat-client --routing --prefix tcc --skip-install
+cd typescript-chat-client
+npm install
+ng generate module shared --module app
+ng generate module shared/material --module shared
+npm install express socket.io --save
+ng generate module chat --module app
+ng generate component chat --module chat
+ng generate service chat/shared/services/socket --module chat
+ng generate class chat/shared/model/user
+ng generate class chat/shared/model/message
+
+-- Updating
+
 ng update @angular/core @angular/cli
 ng update @angular/cdk @angular/material
+ng serve -o --host 192.168.0.19
