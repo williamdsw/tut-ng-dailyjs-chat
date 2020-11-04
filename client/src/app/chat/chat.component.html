@@ -1,48 +1,64 @@
-<!-- person icon -->
-<button mat-fab (click)="onClickUserInfo()">
-    <mat-icon>person</mat-icon>
-</button>
+<main>
+    <article>
 
-<div class="chat-container">
-    <mat-card class="main-card">
-        <mat-list class="chat-list">
-            <mat-list-item *ngFor="let message of messages" [ngClass]="[(message.action === undefined && message.from.id === user.id) ? 'chat-list-item' : '']">
+        <!-- person icon -->
+        <button mat-fab (click)="onClickUserInfo();">
+            <mat-icon>person</mat-icon>
+        </button>
 
-                <!-- name -->
-                <h4 mat-line *ngIf="message.action === undefined">
-                    <b [style]="message.from.color"> {{ message.from.name }} </b>
-                </h4>
+        <div class="chat-container">
+            <mat-card class="main-card">
+                <mat-list class="chat-list">
+                    <mat-list-item *ngFor="let message of messages" 
+                                  [ngClass]="[(!message.action && message.from.id === user.id) ? 'chat-list-item' : '']">
 
-                <!-- timestamp -->
-                <h6 mat-line *ngIf="message.action === undefined">
-                    <i [style]="message.from.color">{{ message.timestamp }}</i>
-                </h6>
+                        <!-- name -->
+                        <h4 mat-line *ngIf="!message.action">
+                            <b [style]="message.from.color"> {{ message.from.name }} </b>
+                        </h4>
 
-                <!-- content -->
-                <p mat-line *ngIf="message.action === undefined">
-                    <span> {{ message.content }} </span>
-                </p>
+                        <!-- timestamp -->
+                        <h6 mat-line *ngIf="!message.action">
+                            <i [style]="message.from.color">{{ message.timestamp }}</i>
+                        </h6>
 
-                <!-- joined -->
-                <p class="chat-notification" mat-line *ngIf="checkAction(message.action, 'JOINED')">
-                    <span>{{ message.timestamp }} : <b [style]="message.from.color"> {{ message.from.name }} </b> joined to the conversation.</span>
-                </p>
+                        <!-- content -->
+                        <p mat-line *ngIf="!message.action">
+                            <span> {{ message.content }} </span>
+                        </p>
 
-                <!-- rename -->
-                <p class="chat-notification" mat-line *ngIf="checkAction(message.action, 'RENAME')">
-                    <span>{{ message.timestamp }} : <b [style]="message.content.color"> {{ message.content.previousUsername }} </b> is now <b [style]="message.content.color"> {{ message.content.username }} </b></span>
-                </p>
-            </mat-list-item>
-        </mat-list>
+                        <!-- joined -->
+                        <p class="chat-notification" mat-line *ngIf="checkAction(message.action, 'JOINED')">
+                            <span> 
+                                {{ message.timestamp }} : 
+                                <b [style]="message.from.color"> {{ message.from.name }} </b> joined to the conversation.
+                            </span>
+                        </p>
 
-        <!-- footer / input -->
-        <div class="chat-footer-container">
-            <mat-form-field class="chat-input">
-                <input matInput #inputMessage 
-                       maxlength="140" placeholder="Type your message" 
-                       [(ngModel)]="messageContent" (keydown)="onKeydown($event);">
-                <mat-hint align="end"> {{ inputMessage.value.length }} / 140 </mat-hint>                       
-            </mat-form-field>
+                        <!-- rename -->
+                        <p class="chat-notification" mat-line *ngIf="checkAction(message.action, 'RENAME')">
+                            <span>
+                                {{ message.timestamp }} : 
+                                <b [style]="message.content.color"> {{ message.content.previousUsername }} </b> 
+                                is now 
+                                <b [style]="message.content.color"> {{ message.content.username }} </b>
+                            </span>
+                        </p>
+                    </mat-list-item>
+                </mat-list>
+
+                <!-- footer / input -->
+                <div class="chat-footer-container">
+                    <mat-form-field class="chat-input">
+                        <input [maxlength]="messageMaxlength" placeholder="Type your message" 
+                               matInput #inputMessage 
+                               [(ngModel)]="messageContent" (keydown)="onKeydown($event);">
+                        <mat-hint align="end"> 
+                            {{ inputMessage.value.length }} / {{ messageMaxlength }} 
+                        </mat-hint>                       
+                    </mat-form-field>
+                </div>
+            </mat-card>
         </div>
-    </mat-card>
-</div>
+    </article>
+</main>

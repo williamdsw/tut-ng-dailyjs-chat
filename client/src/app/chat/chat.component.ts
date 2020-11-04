@@ -24,6 +24,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   // FIELDS
 
+  public messageMaxlength = 140;
   public currentAction: Action = Action.JOINED;
   public user: User;
   public messages: Message[] = [];
