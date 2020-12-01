@@ -6,15 +6,11 @@ import { Message } from './model/message';
 
 export class ChatServer {
 
-    // FIELDS
-
-    public static readonly PORT: number = 8080;
+    public static readonly PORT = 8080;
     private app: express.Application;
     private server: Server;
     private io: SocketIO.Server;
     private port: string | number;
-
-    // CONSTRUCTOR
 
     constructor() {
         this.app = express();
@@ -23,8 +19,6 @@ export class ChatServer {
         this.io = socketIo(this.server);
         this.listen();
     }
-
-    // HELPER FUNCTIONS
 
     private listen(): void {
 
@@ -53,5 +47,4 @@ export class ChatServer {
     public getApp(): express.Application {
         return this.app;
     }
-
 }
