@@ -9,13 +9,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class DialogUserComponent implements OnInit {
 
-  // FIELDS
-
   public usernameFormControl = new FormControl('', [Validators.required]);
   public previousUsername: string;
   private color: string;
-
-  // CONSTRUCTOR
 
   constructor(
     public dialogRef: MatDialogRef<DialogUserComponent>,
@@ -26,11 +22,7 @@ export class DialogUserComponent implements OnInit {
     this.usernameFormControl.setValue(params.username);
   }
 
-  // LIFECYCLE HOOKS
-
   ngOnInit(): void {}
-
-  // HELPER FUNCTIONS
 
   public onSave(): void {
     this.dialogRef.close({

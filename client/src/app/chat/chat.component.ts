@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef, QueryList, AfterViewInit, ViewChildren, ɵConsole } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  QueryList,
+  AfterViewInit,
+  ViewChildren
+} from '@angular/core';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { MatList, MatListItem } from '@angular/material/list';
 
@@ -22,14 +30,12 @@ import { DialogUserComponent } from './dialog-user/dialog-user.component';
 })
 export class ChatComponent implements OnInit, AfterViewInit {
 
-  // FIELDS
-
+  public ioConnection: any;
   public messageMaxlength = 140;
-  public currentAction: Action = Action.JOINED;
+  public currentAction = Action.JOINED;
   public user: User;
   public messages: Message[] = [];
   public messageContent: string;
-  private ioConnection: any;
   private dialogRef: MatDialogRef<DialogUserComponent> | null;
   private defaultDialogUserParams: any = {
     disableClose: true,
@@ -39,20 +45,21 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
   };
 
+  private colors: string[] = [
+    'black', 'red', 'green', 'blue', 'grey', 'darkred', 'darkgreen', 'darkblue', 'brown',
+    'chocolate', 'coral', 'cornflowerblue', ''
+  ];
+
   @ViewChild(MatList, { read: ElementRef, static: true })
   public matList: ElementRef;
 
   @ViewChildren(MatListItem, { read: ElementRef })
   public matListItems: QueryList<MatListItem>;
 
-  // CONSTRUCTOR
-
   constructor(
     private socketService: SocketService,
     private dialog: MatDialog
   ) { }
-
-  // LIFECYCLE HOOKS
 
   ngOnInit(): void {
     this.initModel();
@@ -68,26 +75,20 @@ export class ChatComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // HELPER FUNCTIONS
-
   private scrollToBottom(): void {
     try {
       this.matList.nativeElement.scrollTop = this.matList.nativeElement.scrollHeight;
-    } catch (error) {}
+    }
+    catch (error) { }
   }
 
   private initModel(): void {
-    const RANDOM_ID = this.getRandomNumber(1, 1000000, true);
-
-    // custom color
-    const R = this.getRandomNumber(0, 255, true);
-    const G = this.getRandomNumber(0, 255, true);
-    const B = this.getRandomNumber(0, 255, true);
-    const A = this.getRandomNumber(0.75, 1, false).toFixed(1);
+    const randomId = this.getRandomNumber(1, 1000000, true);
+    const randomIndex = this.getRandomNumber(0, this.colors.length - 1, true);
 
     this.user = {
-      id: RANDOM_ID,
-      color: `color: rgba(${R},${G},${B},${A})`,
+      id: randomId,
+      color: `color: ${this.colors[randomIndex]}`,
     };
 
     console.log (this.user);
@@ -105,13 +106,14 @@ export class ChatComponent implements OnInit, AfterViewInit {
       if (paramsDialog.dialogType === DialogUserType.NEW) {
         this.initIoConnection();
         this.sendNotification(paramsDialog, Action.JOINED);
-      } else if (paramsDialog.dialogType === DialogUserType.EDIT) {
+      }
+      else if (paramsDialog.dialogType === DialogUserType.EDIT) {
         this.sendNotification(paramsDialog, Action.RENAME);
       }
     });
   }
 
-  public onClickUserInfo() {
+  public onClickUserInfo(): void {
     this.openUserPopup({
       data: {
         username: this.user.name,
@@ -166,7 +168,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
         from: this.user,
         action
       };
-    } else if (action === Action.RENAME) {
+    }
+    else if (action === Action.RENAME) {
       localMessage = {
         timestamp: currentTime,
         action,
@@ -181,31 +184,24 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.socketService.send(localMessage);
   }
 
-  public checkAction(action: Action, actionValue: string) {
-
+  public checkAction(action: Action, actionValue: string): boolean {
     switch (action) {
-      case Action.JOINED: {
-        return actionValue === 'JOINED';
-      }
-
-      case Action.RENAME: {
-        return actionValue === 'RENAME';
-      }
+      case Action.JOINED: return actionValue === 'JOINED';
+      case Action.RENAME: return actionValue === 'RENAME';
     }
   }
 
-  private getRandomNumber(min: number, max: number, toFloor: boolean): number {
-
-    const RANDOM = (Math.random() * (max - min)) + min;
+  private getRandomNumber(min: number, max: number, toFloor?: boolean): number {
+    const random = (Math.random() * (max - min)) + min;
 
     if (toFloor) {
-      return Math.floor(RANDOM);
+      return Math.floor(random);
     }
 
-    return RANDOM;
+    return random;
   }
 
-  public onKeydown(event: Event) {
+  public onKeydown(event: Event): void {
     if (event instanceof KeyboardEvent) {
       if (event.key === 'Enter' || event.code === 'Enter') {
         this.sendMessage(this.messageContent);

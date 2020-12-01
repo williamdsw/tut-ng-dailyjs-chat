@@ -1,27 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
+import { environment } from 'src/environments/environment';
 import * as socketIo from 'socket.io-client';
 
 import { Message } from '../model/message';
 
 import { SocketEvent } from '../enums/socket-event.enum';
 
-const SERVER_URL = 'http://localhost:8080';
-
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
 
-  // FIELDS
-
   private socket;
 
-  // HELPER FUNCTIONS
-
   public initSocket(): void {
-    this.socket = socketIo(SERVER_URL);
+    this.socket = socketIo(environment.serverUrl);
   }
 
   public send(message: Message): void {
